@@ -169,7 +169,8 @@ if (!Object.observe) {
 				})(watching)
 			});
 			var wrapProperty = function wrapProperty(object, prop){
-				//var propType = typeof(object[prop]), descriptor = Object.getOwnPropertyDescriptor(object, prop);
+				//var propType = typeof(object[prop]);
+				var descriptor = Object.getOwnPropertyDescriptor(object, prop);
 				if((prop==='getNotifier')||isAccessorDescriptor(descriptor)||(!descriptor.enumerable)){
 					return false;
 				}

@@ -1,7 +1,7 @@
 /**
  * Data Binder entery point
- * @param {Object} model
- * @param {Node=} optNode
+ * @param {!Object} model any JavaScript object
+ * @param {Node=} optNode document.body will be used as a default node
  * @constructor
  */
 var DataBinder = function (model, optNode) {

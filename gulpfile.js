@@ -5,6 +5,7 @@ var karma = require('gulp-karma');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var jsdoc = require('gulp-jsdoc');
+var jsdocToMd = require('gulp-jsdoc-to-markdown');
 var server = require('gulp-server-livereload');
 
 var DIST = 'dist';
@@ -103,6 +104,11 @@ gulp.task('docs', function () {
             cleverLinks: false,
             outputSourceFiles: true
         }));
+
+    gulp.src(SRC_DIR)
+        .pipe(concat('wiki-docs.md'))
+        .pipe(jsdocToMd())
+        .pipe(gulp.dest(DIST + '/wiki'));
 });
 
 gulp.task('build', ['lint', 'docs'], function () {

@@ -16,3 +16,29 @@ Run test:
     gulp test
 
 ### TODO: descripton
+
+## Docs
+<a name="DataBinder"></a>
+#class: DataBinder
+**Members**
+
+* [class: DataBinder](#DataBinder)
+  * [new DataBinder(model, [optNode])](#new_DataBinder)
+  * [dataBinder.getModel()](#DataBinder#getModel)
+  * [dataBinder.getChildren()](#DataBinder#getChildren)
+
+<a name="new_DataBinder"></a>
+##new DataBinder(model, [optNode])
+Data Binder entery point
+
+**Params**
+
+- model `Object` - any JavaScript object
+- \[optNode\] `Node` - document.body will be used as a default node
+
+<a name="DataBinder#getModel"></a>
+##dataBinder.getModel()
+**Returns**: `Object` - binded model
+<a name="DataBinder#getChildren"></a>
+##dataBinder.getChildren()
+**Returns**: `Array` - child binders generated
