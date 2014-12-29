@@ -5,10 +5,39 @@
  * @constructor
  */
 var DataBinder = function (model, optNode) {
+
+	/**
+	 *
+	 * @type {!Object}
+	 * @private
+	 */
 	this.__model = model;
+
+
+	/**
+	 *
+	 * @type {Node|HTMLElement}
+	 * @private
+	 */
 	this.__node = optNode || document.body;
 
+
+	/**
+	 *
+	 * @type {Array}
+	 * @private
+	 */
 	this.__childBinders = [];
+
+
+	/**
+	 *
+	 * @type {string[]}
+	 * @private
+	 * @const
+	 */
+	this.__INPUT_TYPES = ['INPUT', 'TEXTAREA', 'SELECT'];
+
 
 	this.__bindModel();
 	this.__bindView();
@@ -42,8 +71,6 @@ DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
-		var inputsTypes = ['INPUT', 'TEXTAREA', 'SELECT'];
-
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
 			var $this = $(this);
@@ -61,7 +88,7 @@ DataBinder.prototype.__bindModel = function () {
 			if ($this.data().bind) {
 				value = self.__model[$this.data().bind];
 
-				if (inputsTypes.indexOf(this.nodeName) !== -1) {
+				if (self.__INPUT_TYPES.indexOf(this.nodeName) !== -1) {
 					$this.val(value);
 				} else {
 					$this.html(value);
