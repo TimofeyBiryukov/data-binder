@@ -17,9 +17,9 @@ Run test:
 
 ### TODO: descripton
 
-## Docs
+# Docs
 <a name="DataBinder"></a>
-#class: DataBinder
+##class: DataBinder
 **Members**
 
 * [class: DataBinder](#DataBinder)
@@ -35,6 +35,29 @@ Data Binder entery point
 
 - model `Object` - any JavaScript object
 - \[optNode\] `Node` - document.body will be used as a default node
+
+JS:
+
+    var PostController = function () {
+        this.title = 'Title';
+        this.text = 'lorem...';
+        this.showFull = false;
+        this.click = function () {
+            this.showFull = true;
+        };
+    };
+    
+    var post = new PostController();
+    var element = document.getElementsByClassName('post')[0];
+    var db = new DataBinder(post, element));
+
+HTML:
+
+    <div class="post">
+        <h1 data-bind="title"></h1>
+        <p data-bind="text" data-bind-show="showFull"></p>
+        <button data-bind-click="click">Show full</button>
+    </div>
 
 <a name="DataBinder#getModel"></a>
 ##dataBinder.getModel()
