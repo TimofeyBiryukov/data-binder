@@ -46,10 +46,10 @@ JS:
             this.showFull = true;
         };
     };
-    
+
     var post = new PostController();
     var element = document.getElementsByClassName('post')[0];
-    var db = new DataBinder(post, element));
+    var db = new DataBinder(post, element);
 
 HTML:
 
