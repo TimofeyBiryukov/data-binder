@@ -10,7 +10,8 @@ var server = require('gulp-server-livereload');
 
 var DIST = 'dist';
 var KARMA_CONF = 'test/karma.conf.js';
-var SRC_DIR = 'src/*.js';
+var SRC_DIR = ['src/*.js', 'bower_components/mustache/mustache.js'];
+var SRC_LINT = ['src/data-bind.js', 'src/object-observer.js'];
 var TEST_DIR = 'src/*.js, bower_components/jquery/dist/jquery.js';
 var JSHITRC = {
     'node': true,
@@ -79,10 +80,10 @@ gulp.task('server', function() {
 });
 
 gulp.task('lint', function () {
-    gulp.src(SRC_DIR)
+    gulp.src(SRC_LINT)
         .pipe(jshint(JSHITRC))
         .pipe(jshint.reporter(stylish))
-        //.pipe(jshint.reporter('fail'));
+        .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('docs', function () {

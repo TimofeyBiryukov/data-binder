@@ -71,6 +71,8 @@ DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
+		//mustache.render(this.__model, this.__node);
+
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
 			var $this = $(this);
