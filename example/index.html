@@ -1,0 +1,163 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class = "no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class = "no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class = "no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class = "no-js"> <!--<![endif]-->
+	<head>
+		<meta charset = "utf-8">
+		<meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+		<title>databind</title>
+		<meta name = "description" content = "A sample description">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1">
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<!-- build:css styles/vendor.css -->
+		<!-- bower:css -->
+		<!-- endbower -->
+		<!-- endbuild -->
+		<!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" href="styles/main.css">
+		<!-- endbuild -->
+	</head>
+	<body>
+		<!--[if lt IE 10]>
+		<p class = "browsehappy">You are using an <strong>outdated</strong> browser. Please
+			<a href = "http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<div class="container">
+			<!--<div data-bind="title">title</div>-->
+
+			<!--<div class="t">-->
+				<!--<h1 data-bind="title">title</h1>-->
+				<!--<p data-bind="text" data-bind-click="click">text</p>-->
+				<!--<input type="text" data-bind="text"/>-->
+
+				<!--<div data-bind="number"></div>-->
+			<!--</div>-->
+
+			<!--<div class="form" style="width: 200px; margin: 0 auto; text-align: center;">-->
+				<!--<div data-bind-init="init">-->
+					<!--Name: <input type="text" data-bind="name"/><div data-bind="name"></div><br/>-->
+					<!--Phone: <input type="text" data-bind="number"/><div data-bind="number"></div><br/>-->
+					<!--<select data-bind="select">-->
+						<!--<option value="0">0</option>-->
+						<!--<option value="1">1</option>-->
+					<!--</select><div data-bind="select"></div>-->
+					<!--<p data-bind="message"></p>-->
+					<!--<button data-bind-click="submit">Submit</button>-->
+				<!--</div>-->
+
+				<!--<div data-bind-show="show">I am here!</div>-->
+			<!--</div>-->
+
+
+			<div class="test" style="width: 200px; margin: 0 auto; text-align: center;">
+				<div data-bind-init="init">
+					Привет меня зовут <div data-bind="name"></div> и я работаю <div data-bind="oc"></div>
+					<br/>
+					<input type="text" data-bind="oc"/>
+					<div data-bind-show="show" style="display: none">Now u see me</div>
+					<div data-bind-hide="hide">Now can't u see me</div>
+					<div data-bind-click="click">Click me!</div>
+
+					<div data-bind-repeat="array" data-bind="test">
+						<!--<div data-bind="test"></div>-->
+					</div>
+
+					<div>
+						<select name="test" id="test" data-bind="select">
+							<option value="{{val}}" data-bind-repeat="options" data-bind="name">Выберите элемент</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- build:js js/vendor.min.js -->
+		<!-- bower:js -->
+		<script src="/data-bind/bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- endbower -->
+		<!-- endbuild -->
+
+		<script src="/data-bind/dist/data-binder.js"></script>
+
+		<!-- TODO: Google Analytics -->
+
+		<script>
+			(function () {
+				var RenataController = function () {
+//					this.name = '';
+					this.oc = 'Designer';
+					this.show = true;
+					this.hide = true;
+
+					this.array = [{
+						test: 'test'
+					}, {
+						test: 'test1'
+					}];
+
+					this.options = [{
+						name: 'one',
+						value: 0
+					}, {
+						name: 'two',
+						value: 1
+					}];
+					this.select = '';
+
+
+//					for (var i = 0; i < 100; i++) {
+//						this.array.push(i);
+//					}
+
+					this.init = function () {
+						this.name = 'Renata Izmailova';
+//						this.oc = 'Designer';
+					};
+
+					this.click = function () {
+						alert('Hello!');
+					};
+				};
+
+				this.renata = new RenataController();
+
+				this.db = new DataBinder(this.renata, $('.test'));
+
+//				var ModelConstructor = function () {
+//					this.name = '';
+//					this.number = '';
+//
+//					this.select = 0;
+//
+//					this.message = '';
+//
+//					this.show = true;
+//
+//					this.init = function () {
+//						console.log('init');
+//					};
+//
+//					this.submit = function () {
+//						console.log(this.name);
+//						console.log(this.number);
+//
+//						if (this.name !== '' && this.number !== '') {
+//							this.message = 'All good!';
+//						} else {
+//							this.message = 'Fill inputs!';
+//						}
+//					};
+//				};
+//
+//				this.model = new ModelConstructor();
+//
+//				new DataBinder(this.model, document.getElementsByClassName('form')[0]);
+			})();
+		</script>
+	</body>
+</html>

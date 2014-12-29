@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/dist/data-binder.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row clearfix" data-bind-repeat="posts">
+			<div class="col-md-12 column">
+				<div class="jumbotron">
+					<h1 data-bind="title" data-bind-click="titleClick">
+
+					</h1>
+					<p data-bind="text">
+
+					</p>
+					<p>
+						<a class="btn btn-primary btn-large" href="#" data-bind-click="more">Learn more</a>
+					</p>
+
+					<div data-bind-hide="hidden">
+						<ul>
+							<li>asd</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h1 data-bind="title" data-bind-click="titleClick">Outside title</h1>
+
+	<script>
+		var Post = function (id, title, text) {
+			this.id = id;
+			this.title = title;
+			this.text = text;
+			this.hidden = true;
+
+			this.more = function () {
+				this.text += '<br/> was clicked!';
+			};
+
+			this.titleClick = function () {
+				this.hidden = !this.hidden;
+			};
+		};
+
+		var PostsController = function () {
+			var postCtrl = this;
+
+			this.posts = [];
+
+			var text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consequuntur cum dolorem eum inventore laudantium molestias nemo nesciunt nostrum perspiciatis possimus quam quidem, quo ratione sapiente soluta vitae voluptates! Nisi?';
+
+			for (var i = 0; i < 100; i++) {
+				this.posts.push(new Post(i, 'Title ' + i, text));
+			}
+
+
+			this.getPostById = function (id) {
+				return this.posts[id];
+			};
+
+//			$.get('http://localhost:1337/post/feed').success(function (data) {
+//				for (var i = data.length - 1; i > 0; i--) {
+//					postCtrl.posts.push({
+//						title: data[i].title,
+//						text: data[i].description
+//					});
+//				}
+//			});
+		};
+
+		var db = new DataBinder(new PostsController(), $('.container'));
+
+//		new DataBinder();
+//		new DataBinder({
+//			title: 'Hello World!',
+//			text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consequuntur cum dolorem eum inventore laudantium molestias nemo nesciunt nostrum perspiciatis possimus quam quidem, quo ratione sapiente soluta vitae voluptates! Nisi?',
+//			more: function () {
+//				alert('Learn more about ' + this.title);
+//			}
+//		}, $('.post'));
+	</script>
+</body>
+</html>
