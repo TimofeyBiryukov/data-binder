@@ -45,16 +45,7 @@ var JSHITRC = {
         'expect': true,
         'setFixtures': true,
 
-        'Node': true,
-        'HTMLElement': true,
-
-        'isNode': true,
-        'isDataDescriptor': true,
-        'propType': true,
-        'newKeys': true,
-        'updates': true,
-        'retval': true,
-        'descriptor': true
+        'Mustache': true
     }
 };
 
@@ -124,5 +115,5 @@ gulp.task('build', ['lint', 'docs'], function () {
 });
 
 gulp.task('default', ['build', 'server'], function () {
-    gulp.watch(SRC_DIR, ['lint', 'docs']);
+    gulp.watch(SRC_DIR, ['build']);
 });

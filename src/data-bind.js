@@ -32,6 +32,14 @@ var DataBinder = function (model, optNode) {
 
 	/**
 	 *
+	 * @type {Window.Mustache|*}
+	 * @private
+	 */
+	this.__templater = Mustache;
+
+
+	/**
+	 *
 	 * @type {string[]}
 	 * @private
 	 * @const
@@ -71,7 +79,7 @@ DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
-		//mustache.render(this.__model, this.__node);
+		self.__renderHTML();
 
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
@@ -132,6 +140,19 @@ DataBinder.prototype.__update = function () {
 			this.__model[index] = tmp;
 		}
 	}
+};
+
+
+/**
+ *
+ * @private
+ */
+DataBinder.prototype.__renderHTML = function () {
+	var template = this.__node.html();
+
+	template = this.__templater.render(template, this.__model);
+
+	this.__node.html(template);
 };
 
 
