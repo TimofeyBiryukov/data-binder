@@ -32,6 +32,15 @@ var DataBinder = function (model, optNode) {
 
 	/**
 	 *
+	 * @type {string[]}
+	 * @private
+	 * @const
+	 */
+	this.__INPUT_TYPES = ['INPUT', 'TEXTAREA', 'SELECT'];
+
+
+	/**
+	 *
 	 * @type {Window.Mustache|*}
 	 * @private
 	 */
@@ -40,12 +49,12 @@ var DataBinder = function (model, optNode) {
 
 	/**
 	 *
-	 * @type {string[]}
 	 * @private
-	 * @const
 	 */
-	this.__INPUT_TYPES = ['INPUT', 'TEXTAREA', 'SELECT'];
+	this.__template = this.__node.html();
 
+
+	this.__templater.parse(this.__template);
 
 	this.__bindModel();
 	this.__bindView();
@@ -148,11 +157,22 @@ DataBinder.prototype.__update = function () {
  * @private
  */
 DataBinder.prototype.__renderHTML = function () {
-	var template = this.__node.html();
+	var render = this.__templater.render(this.__template, this.__model);
 
-	template = this.__templater.render(template, this.__model);
+	this.__node.html(render);
+};
 
-	this.__node.html(template);
+
+/**
+ *
+ * @private
+ */
+DataBinder.prototype.__populateModel = function () {
+	var values = this.__template.match(/\{\{(.+)\}\}/g);
+
+	if (values) {
+		
+	}
 };
 
 
