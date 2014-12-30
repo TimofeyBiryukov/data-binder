@@ -45,7 +45,8 @@ var JSHITRC = {
         'expect': true,
         'setFixtures': true,
 
-        'Mustache': true
+        'Mustache': true,
+        'HTMLElement': true
     }
 };
 

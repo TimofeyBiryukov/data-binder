@@ -16,11 +16,19 @@ var DataBinder = function (model, optNode) {
 
 	/**
 	 *
-	 * @type {Node|HTMLElement}
+	 * @type {HTMLElement}
 	 * @private
 	 */
 	this.__node = optNode || document.body;
 
+
+	if (!(this.__node instanceof HTMLElement)) {
+		if (this.__node[0] instanceof HTMLElement) {
+			this.__node = this.__node[0];
+		} else {
+			throw 'Second parametr must be a valid HTMLElement';
+		}
+	}
 
 	/**
 	 *
@@ -51,8 +59,7 @@ var DataBinder = function (model, optNode) {
 	 *
 	 * @private
 	 */
-	this.__template = this.__node.html();
-
+	this.__template = this.__node.innerHTML;
 
 	this.__templater.parse(this.__template);
 
@@ -157,9 +164,7 @@ DataBinder.prototype.__update = function () {
  * @private
  */
 DataBinder.prototype.__renderHTML = function () {
-	var render = this.__templater.render(this.__template, this.__model);
-
-	this.__node.html(render);
+	this.__node.innerHTML = this.__templater.render(this.__template, this.__model);
 };
 
 
@@ -170,8 +175,8 @@ DataBinder.prototype.__renderHTML = function () {
 DataBinder.prototype.__populateModel = function () {
 	var values = this.__template.match(/\{\{(.+)\}\}/g);
 
-	if (values) {
-		
+	if (values && values.length > 0) {
+
 	}
 };
 

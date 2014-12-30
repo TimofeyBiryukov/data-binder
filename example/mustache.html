@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mustache tests</title>
+    
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/dist/data-binder.js"></script>
+</head>
+<body>
+    <div class="case_1">
+        <div class="one">
+            {{one}}
+        </div>
+    
+        <div class="two">
+            {{two}}
+        </div>
+    </div>
+
+    <div class="case_2">
+        <div class="foo">
+            {{foo}}
+            <p>
+                {{foo}}
+            </p>
+        </div>
+
+        <div data-bind-repeat="data">data</div>
+    </div>
+
+    <script>
+        new DataBinder({
+            one: 'Bir',
+            two: 'Eke',
+            data: [
+                {a: 'a'},
+                {b: 'b'}
+            ]
+//            data: ['a', 'b', 'c']
+        }, document.getElementsByClassName('case_1')[0]);
+
+        new DataBinder({
+            foo: 'FOO'
+        }, document.getElementsByClassName('case_2'));
+    </script>    
+</body>
+</html>
