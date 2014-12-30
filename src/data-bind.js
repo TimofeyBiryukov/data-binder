@@ -1,5 +1,5 @@
 /**
- * Data Binder entery point
+ * Data Binder entry point
  * @param {!Object} model any JavaScript object
  * @param {Node=} optNode document.body will be used as a default node
  * @constructor
@@ -63,6 +63,8 @@ var DataBinder = function (model, optNode) {
 
 	this.__templater.parse(this.__template);
 
+	this.__renderHTML(); // TODO: temp, should be updated with model
+
 	this.__bindModel();
 	this.__bindView();
 	this.__update();
@@ -95,8 +97,6 @@ DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
-		self.__renderHTML();
-
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
 			var $this = $(this);
@@ -164,6 +164,7 @@ DataBinder.prototype.__update = function () {
  * @private
  */
 DataBinder.prototype.__renderHTML = function () {
+	this.__populateModel();
 	this.__node.innerHTML = this.__templater.render(this.__template, this.__model);
 };
 
@@ -176,7 +177,14 @@ DataBinder.prototype.__populateModel = function () {
 	var values = this.__template.match(/\{\{(.+)\}\}/g);
 
 	if (values && values.length > 0) {
+		for (var i = values.length - 1; i >= 0; i--) {
+			var key = values[i].split('{{');
+			key = key[key.length - 1].split('}}')[0];
 
+			if (!this.__model.hasOwnProperty(key)) {
+				this.__model[key] = values[i];
+			}
+		}
 	}
 };
 

@@ -17,33 +17,78 @@
         <div class="two">
             {{two}}
         </div>
+
+        {{test}}
     </div>
+
+    ______________________ <br/>
 
     <div class="case_2">
         <div class="foo">
             {{foo}}
-            <p>
-                {{foo}}
-            </p>
         </div>
 
-        <div data-bind-repeat="data">data</div>
+        <div data-bind-repeat="data">
+            {{bar}}
+        </div>
     </div>
+
+    ______________________ <br/>
+
+    <div class="case_3">
+        <h1>Welcome to {{title}}</h1>
+        <div class="post" data-bind-repeat="posts">
+            <h2 data-bind="title"></h2>
+            <p data-bind="text"></p>
+            <button data-bind-click="like">{{likeText}}</button>
+        </div>
+    </div>
+
 
     <script>
         new DataBinder({
             one: 'Bir',
-            two: 'Eke',
-            data: [
-                {a: 'a'},
-                {b: 'b'}
-            ]
-//            data: ['a', 'b', 'c']
+            two: 'Eke'
         }, document.getElementsByClassName('case_1')[0]);
 
         new DataBinder({
-            foo: 'FOO'
+            foo: 'FOO',
+            data: [
+                {
+                    bar: 'BAR'
+                },
+                {
+                    bar: 'BAR0'
+                }
+            ]
+
         }, document.getElementsByClassName('case_2'));
+
+
+        var Post = function (title, text, id) {
+            this.title = title;
+            this.text = text;
+            this.id = id;
+
+            this.likeText = 'TNX fo the Like';
+            this.like = function () {
+                alert(this.likeText);
+            }
+        };
+
+        var Page = function (title) {
+            this.title = title;
+            this.posts = [];
+
+            for (var i = 0; i < 10; i++) {
+                this.posts.push(new Post('Title ' + i, 'text ' + i, i));
+            }
+        };
+
+        var homePage = new Page('Home Page');
+
+        new DataBinder(homePage, document.getElementsByClassName('case_3'));
+
     </script>    
 </body>
 </html>
