@@ -63,7 +63,7 @@ var DataBinder = function (model, optNode) {
 
 	this.__templater.parse(this.__template);
 
-	this.__renderHTML(); // TODO: temp, should be updated with model
+	this.__renderHTML();
 
 	this.__bindModel();
 	this.__bindView();

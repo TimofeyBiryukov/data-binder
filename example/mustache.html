@@ -38,10 +38,19 @@
     <div class="case_3">
         <h1>Welcome to {{title}}</h1>
         <div class="post" data-bind-repeat="posts">
-            <h2 data-bind="title"></h2>
-            <p data-bind="text"></p>
+            <h2>{{post_title}}</h2>
+            <p>{{text}}</p>
             <button data-bind-click="like">{{likeText}}</button>
+            <select name="" id="">
+                <option value="{{val}}" data-bind-repeat="options" data-bind="val"></option>
+            </select>
         </div>
+    </div>
+
+    ______________________ <br/>
+
+    <div class="case_4">
+
     </div>
 
 
@@ -66,7 +75,7 @@
 
 
         var Post = function (title, text, id) {
-            this.title = title;
+            this.post_title = title;
             this.text = text;
             this.id = id;
 
@@ -74,6 +83,12 @@
             this.like = function () {
                 alert(this.likeText);
             }
+
+            this.options = [{
+                val: 'val1'
+            }, {
+                val: 'val2'
+            }]
         };
 
         var Page = function (title) {
@@ -88,6 +103,7 @@
         var homePage = new Page('Home Page');
 
         new DataBinder(homePage, document.getElementsByClassName('case_3'));
+
 
     </script>    
 </body>
