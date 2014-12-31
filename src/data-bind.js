@@ -1,10 +1,13 @@
+
+
 /**
  * Data Binder entry point
  * @param {!Object} model any JavaScript object
  * @param {Node=} optNode document.body will be used as a default node
+ * @param {string=} optScope
  * @constructor
  */
-var DataBinder = function (model, optNode) {
+var DataBinder = function (model, optNode, optScope) {
 
 	/**
 	 *
@@ -26,9 +29,18 @@ var DataBinder = function (model, optNode) {
 		if (this.__node[0] instanceof HTMLElement) {
 			this.__node = this.__node[0];
 		} else {
-			throw 'Second parametr must be a valid HTMLElement';
+			throw 'Second parameter must be a valid HTMLElement';
 		}
 	}
+
+
+	/**
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	this.__scope = optScope || '';
+
 
 	/**
 	 *
@@ -41,10 +53,25 @@ var DataBinder = function (model, optNode) {
 	/**
 	 *
 	 * @type {string[]}
+	 * @enum
 	 * @private
 	 * @const
 	 */
 	this.__INPUT_TYPES = ['INPUT', 'TEXTAREA', 'SELECT'];
+
+
+	/**
+	 *
+	 * @enum
+	 * @private
+	 */
+	this.__TYPES = {
+		SHOW: 'show',
+		HIDE: 'hide',
+		REPEAT: 'repeat',
+		CLICK: 'click',
+		INIT: 'init'
+	};
 
 
 	/**
@@ -60,6 +87,7 @@ var DataBinder = function (model, optNode) {
 	 * @private
 	 */
 	this.__template = this.__node.innerHTML;
+
 
 	this.__templater.parse(this.__template);
 
@@ -101,18 +129,18 @@ DataBinder.prototype.__bindModel = function () {
 			var value;
 			var $this = $(this);
 
-			if ($this.data().bindShow) {
+			if ($this.data(self.__buildDataKey(self.__TYPES.SHOW))) {
 				self._bindShow($this);
-			} else if ($this.data().bindHide) {
+			} else if ($this.data(self.__buildDataKey(self.__TYPES.HIDE))) {
 				self._bindHide($this);
 			}
 
-			if ($this.data().bindRepeat) {
+			if ($this.data(self.__buildDataKey(self.__TYPES.REPEAT))) {
 				self._bindRepeat($this);
 			}
 
-			if ($this.data().bind) {
-				value = self.__model[$this.data().bind];
+			if ($this.data(self.__buildDataKey())) {
+				value = self.__model[self.__buildDataKey()];
 
 				if (self.__INPUT_TYPES.indexOf(this.nodeName) !== -1) {
 					$this.val(value);
@@ -200,26 +228,97 @@ DataBinder.prototype.__buildSelector = function (values) {
 
 	if (values) {
 		for (var i = 0; i < values.length; i ++) {
-			selector.push('[data-bind="' + values[i].name + '"]');
-			selector.push('[data-bind-show="' + values[i].name + '"]');
-			selector.push('[data-bind-hide="' + values[i].name + '"]');
-			selector.push('[data-bind-repeat="' + values[i].name + '"]');
+			var name = values[i].name;
+
+			selector.push(this.__buildScope(name));
+			selector.push(this.__buildScope(name, this.__TYPES.SHOW));
+			selector.push(this.__buildScope(name, this.__TYPES.HIDE));
+			selector.push(this.__buildScope(name, this.__TYPES.REPEAT));
 		}
 	} else {
 		for (var index in this.__model) {
 			if (this.__model.hasOwnProperty(index)) {
 				if (typeof this.__model[index] === 'function') {
-					selector.push('[data-bind-click="' + index + '"]');
-					selector.push('[data-bind-init="' + index + '"]');
+					selector.push(this.__buildScope(index, this.__TYPES.CLICK));
+					selector.push(this.__buildScope(index, this.__TYPES.INIT));
 				} else {
-					selector.push('[data-bind="' + index + '"]');
-					selector.push('[data-bind-show="' + index + '"]');
+					selector.push(this.__buildScope(index));
+					selector.push(this.__buildScope(index, this.__TYPES.SHOW));
+					selector.push(this.__buildScope(index, this.__TYPES.HIDE));
 				}
 			}
 		}
 	}
 
 	return selector.join();
+};
+
+
+/**
+ *
+ * @param {string} value
+ * @param {string=} optType
+ * @returns {string}
+ * @private
+ */
+DataBinder.prototype.__buildScope = function (value, optType) {
+	var type = optType || '';
+	var tmp = ['data', 'bind'];
+
+	if (type) {
+		tmp.push(type);
+	}
+
+	if (this.__scope) {
+		tmp.push(this.__scope);
+	}
+
+	return '[' + tmp.join('-') + '="' + value + '"]';
+};
+
+
+/**
+ *
+ * @param {string=} optType
+ * @returns {string}
+ * @private
+ */
+DataBinder.prototype.__buildDataKey = function (optType) {
+	var type = optType || '';
+	var tmp = ['bind'];
+
+	if (type) {
+		tmp.push(type);
+	}
+
+	if (this.__scope) {
+		tmp.push(this.__scope);
+	}
+
+	return this.__toCamelCase(tmp.join('-'));
+};
+
+
+/**
+ *
+ * @param {string} input
+ * @returns {string}
+ */
+DataBinder.prototype.__toCamelCase = function (input) {
+	return input.toLowerCase().replace(/-(.)/g, function(match, group) {
+		return group.toUpperCase();
+	});
+};
+
+
+/**
+ *
+ * @param {string} input
+ * @returns {string}
+ * @private
+ */
+DataBinder.prototype.__fromCamelCase = function (input) {
+	return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 };
 
 

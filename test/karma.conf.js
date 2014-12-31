@@ -16,7 +16,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 	  'bower_components/jquery/dist/jquery.js',
-	  'src/data-bind.js',
+      'bower_components/mustache/mustache.js',
+      'src/data-bind.js',
       'src/object-observe.js',
 	  'test/fixtures.js',
       'test/*-spec.js'
