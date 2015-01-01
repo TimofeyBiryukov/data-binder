@@ -42,6 +42,9 @@ var DataBinder = function (model, optNode, optScope) {
 	this.__scope = optScope || '';
 
 
+	this.__scope = this.__scope.toLowerCase();
+
+
 	/**
 	 *
 	 * @type {Array}
@@ -68,9 +71,10 @@ var DataBinder = function (model, optNode, optScope) {
 	this.__TYPES = {
 		SHOW: 'show',
 		HIDE: 'hide',
-		REPEAT: 'repeat',
 		CLICK: 'click',
-		INIT: 'init'
+		INIT: 'init',
+		REPEAT: 'repeat',
+		SCOPE: 'scope'
 	};
 
 
@@ -90,7 +94,6 @@ var DataBinder = function (model, optNode, optScope) {
 
 
 	this.__templater.parse(this.__template);
-
 	this.__renderHTML();
 
 	this.__bindModel();
@@ -140,7 +143,7 @@ DataBinder.prototype.__bindModel = function () {
 			}
 
 			if ($this.data(self.__buildDataKey())) {
-				value = self.__model[self.__buildDataKey()];
+				value = self.__model[$this.data(self.__buildDataKey())];
 
 				if (self.__INPUT_TYPES.indexOf(this.nodeName) !== -1) {
 					$this.val(value);
@@ -162,9 +165,16 @@ DataBinder.prototype.__bindView = function () {
 
 	this.__find(this.__buildSelector()).each(function () {
 		var $this = $(this);
+		var data, scope;
 
 		for (var index in $this.data()) {
-			self['_' + index]($this);
+			data = self.__fromCamelCase(index).split('-');
+
+			if (self.__scope && data.indexOf(self.__scope) !== -1) {
+				scope = data.splice(data.indexOf(self.__scope), 1);
+			}
+
+			self['_' + self.__toCamelCase(data.join('-'))]($this);
 		}
 	});
 };
@@ -352,7 +362,7 @@ DataBinder.prototype._bind = function ($this) {
 	var self = this;
 
 	$this.change(function () {
-		self.__model[$(this).data().bind] = $(this).val();
+		self.__model[$(this).data(self.__buildDataKey())] = $(this).val();
 	});
 };
 
@@ -366,7 +376,7 @@ DataBinder.prototype._bindClick = function ($this) {
 	var self = this;
 
 	$this.click(function () {
-		self.__model[$(this).data().bindClick](this);
+		self.__model[$(this).data(self.__buildDataKey(self.__TYPES.CLICK))](this);
 	});
 };
 
@@ -377,7 +387,7 @@ DataBinder.prototype._bindClick = function ($this) {
  * @private
  */
 DataBinder.prototype._bindInit = function ($this) {
-	this.__model[$this.data().bindInit]($this);
+	this.__model[$this.data(this.__buildDataKey(this.__TYPES.INIT))]($this);
 };
 
 
@@ -387,11 +397,15 @@ DataBinder.prototype._bindInit = function ($this) {
  * @private
  */
 DataBinder.prototype._bindRepeat = function ($this) {
-	var element, node, model, dataBinder;
-	var data = this.__model[$this.data().bindRepeat];
+	var element, node, model, dataBinder, optScope;
+	var data = this.__model[$this.data(this.__buildDataKey(this.__TYPES.REPEAT))];
 	var parent = $($this.parents()[0]);
 
 	if (data) {
+		if ($this.data('bindScope')) {
+			optScope = $this.data('bindScope');
+		}
+
 		for (var i = 0; i < data.length; i++) {
 			element = data[i];
 			node = $this.clone(true);
@@ -403,7 +417,7 @@ DataBinder.prototype._bindRepeat = function ($this) {
 			}
 
 			parent.append(node);
-			dataBinder = new DataBinder(model, node);
+			dataBinder = new DataBinder(model, node, optScope);
 			this.__childBinders.push(dataBinder);
 		}
 
@@ -418,7 +432,7 @@ DataBinder.prototype._bindRepeat = function ($this) {
  * @private
  */
 DataBinder.prototype._bindHide = function ($this) {
-	var hide = Boolean(this.__model[$this.data().bindHide]);
+	var hide = Boolean(this.__model[$this.data(this.__buildDataKey(this.__TYPES.HIDE))]);
 
 	if (!hide) {
 		$this.css('display', 'block');
@@ -434,7 +448,7 @@ DataBinder.prototype._bindHide = function ($this) {
  * @private
  */
 DataBinder.prototype._bindShow = function ($this) {
-	var show = Boolean(this.__model[$this.data().bindShow]);
+	var show = Boolean(this.__model[$this.data(this.__buildDataKey(this.__TYPES.SHOW))]);
 
 	if (show) {
 		$this.css('display', 'block');

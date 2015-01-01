@@ -74,8 +74,8 @@ gulp.task('server', function() {
 gulp.task('lint', function () {
     gulp.src(SRC_LINT)
         .pipe(jshint(JSHITRC))
-        .pipe(jshint.reporter(stylish))
-        .pipe(jshint.reporter('fail'));
+        .pipe(jshint.reporter(stylish));
+        //.pipe(jshint.reporter('fail'));
 });
 
 gulp.task('docs', function () {

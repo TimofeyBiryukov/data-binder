@@ -38,7 +38,7 @@
     <div class="case_3">
         <h1>Welcome to {{title}}</h1>
         <div class="post" data-bind-repeat="posts">
-            <h2>{{post_title}}</h2>
+            <h2>{{title}}</h2>
             <p>{{text}}</p>
             <button data-bind-click="like">{{likeText}}</button>
             <select name="" id="">
@@ -75,7 +75,7 @@
 
 
         var Post = function (title, text, id) {
-            this.post_title = title;
+            this.title = title;
             this.text = text;
             this.id = id;
 

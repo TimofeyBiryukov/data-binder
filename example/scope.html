@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope</title>
+    
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/dist/data-binder.js"></script>
+</head>
+<body>
+    <div data-bind-testScope="test"></div>
+    <div data-bind="test"></div>
+
+    <input type="text" data-bind-testScope="test"/>
+    <input type="text" data-bind="test"/>
+
+    <script>
+        var db = new DataBinder({
+            test: 'testt'
+        }, null, 'testScope');
+
+        new DataBinder({
+            test: 'test0'
+        });
+    </script>
+</body>
+</html>

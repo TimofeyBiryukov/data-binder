@@ -9,7 +9,12 @@ var templates = {
 		'<div data-bind-hide="hide">This should be hidden</div>',
 	'bindInput':
 		'<input type="text" data-bind="foo"/>' +
-		'<input type="submit" data-bind-click="click"/>'
+		'<input type="submit" data-bind-click="click"/>',
+	'scope':
+		'<div data-bind-scope="foo"></div>' +
+		'<div data-bind="foo"></div>' +
+		'<input type="text" data-bind-scope="foo">' +
+		'<input type="text" data-bind="foo">'
 };
 
 var fixtures = '';
