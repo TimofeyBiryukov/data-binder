@@ -59,6 +59,15 @@ HTML:
         <button data-bind-click="click">Show full</button>
     </div>
 
+HTML API:
+
+    data-bind="stringMethod"
+    data-bind-show="booleanMethod"
+    data-bind-hide="booleanMethod"
+    data-bind-init="function"
+    data-bind-click="function"
+    data-bind-repeat="array"
+
 <a name="DataBinder#getModel"></a>
 ##dataBinder.getModel()
 **Returns**: `Object` - binded model

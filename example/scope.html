@@ -9,20 +9,117 @@
     <script src="/dist/data-binder.js"></script>
 </head>
 <body>
-    <div data-bind-testScope="test"></div>
+    <div data-bind-test="test"></div>
     <div data-bind="test"></div>
 
-    <input type="text" data-bind-testScope="test"/>
+    <input type="text" data-bind-test="test"/>
     <input type="text" data-bind="test"/>
 
-    <script>
-        var db = new DataBinder({
-            test: 'testt'
-        }, null, 'testScope');
 
-        new DataBinder({
-            test: 'test0'
-        });
+    <br/>
+    <p data-bind-post="test"></p>
+    <input type="text" data-bind-post="test"/>
+
+    <br/>
+    <div data-bind-repeat-posts="posts" data-bind-scope="post">
+        <div class="row">
+            <div class="well">
+                <div class="post">
+                    <h1 data-bind-post="title"></h1>
+                    <p data-bind-post="article"></p>
+                    <a href="#" data-bind-click-post="update"><p data-bind-post="message"></p></a>
+                </div>
+                <button class="btn btn-md" data-bind-click-post="edit">Edit</button>
+                <div class="edit" data-bind-show-post="showEdit">
+                    <div class="row">
+                        <div class="col-md-12">
+                                <input class="input-md" type="text" data-bind-post="title"/><br/>
+                                <textarea class="input-md" name="area" id="" cols="30" rows="10" data-bind-post="article"></textarea><br/>
+                                <button class="btn btn-md" data-bind-click-post="save">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <div data-bind-repeat(some)="array"></div>
+    <div data-bind-repeat="scope|array"></div>
+    <div data-bind-repeat="scope | array"></div>
+    <div data-repeat="scope | method"></div>
+    <div data-click="scope | "></div>
+
+
+    <script>
+        DataBinder({
+            test: 'testt'
+        }, null, 'test');
+
+        DataBinder({test: 'test0'});
+
+        DataBinder({test: 'testtest'}, null, 'post');
+
+        var Post = function (args) {
+            this.title = args.title;
+            this.article = args.article;
+            this.message = 'reload';
+            this.showEdit = false;
+
+            this.edit = function () {
+                this.showEdit = !this.showEdit;
+            };
+
+            this.save = function () {
+                this.showEdit = false;
+            };
+
+            this.update = function () {
+                var self = this;
+
+                self.message = 'updating.';
+
+                setTimeout(function () {
+                    self.message = 'updating..';
+
+                    setTimeout(function () {
+                        self.message = 'updating...';
+
+                        setTimeout(function () {
+                            self.message = 'reload';
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }
+        };
+
+//        $.get('http://localhost:1337/post/feed')
+//                .done(function (data) {
+//                    var posts = [];
+//
+//                    for (var i in data) {
+//                        posts.push(new Post({title: data[i].title, article: data[i].description}));
+//                    }
+//
+//                    console.log(posts);
+//
+//                    DataBinder({
+//                        posts: posts
+//                    }, null, 'posts');
+//                });
+
+        var db = DataBinder({
+            posts: [new Post({
+                title: 'Title asd',
+                article: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+            }), new Post({
+                title: 'Title dsa',
+                article: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+            }), new Post({
+                title: 'Title ssd',
+                article: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+            })]
+        }, null, 'posts');
     </script>
 </body>
 </html>

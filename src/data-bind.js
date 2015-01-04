@@ -1,4 +1,5 @@
 
+window.binders = window.binders || [];
 
 /**
  * Data Binder entry point
@@ -8,6 +9,12 @@
  * @constructor
  */
 var DataBinder = function (model, optNode, optScope) {
+
+	if (!(this instanceof DataBinder)) {
+		return new DataBinder(model, optNode, optScope);
+	}
+
+	window.binders.push(this);
 
 	/**
 	 *
@@ -174,7 +181,11 @@ DataBinder.prototype.__bindView = function () {
 				scope = data.splice(data.indexOf(self.__scope), 1);
 			}
 
-			self['_' + self.__toCamelCase(data.join('-'))]($this);
+			if (self['_' + self.__toCamelCase(data.join('-'))]) {
+				self['_' + self.__toCamelCase(data.join('-'))]($this);
+			} else {
+				console.log('Method ' + '_' + self.__toCamelCase(data.join('-')) + ' not found');
+			}
 		}
 	});
 };
@@ -203,7 +214,7 @@ DataBinder.prototype.__update = function () {
  */
 DataBinder.prototype.__renderHTML = function () {
 	this.__populateModel();
-	this.__node.innerHTML = this.__templater.render(this.__template, this.__model);
+	// this.__node.innerHTML = this.__templater.render(this.__template, this.__model); // TODO: rebind events
 };
 
 
@@ -362,7 +373,7 @@ DataBinder.prototype._bind = function ($this) {
 	var self = this;
 
 	$this.change(function () {
-		self.__model[$(this).data(self.__buildDataKey())] = $(this).val();
+		self.__model[$this.data(self.__buildDataKey())] = $this.val();
 	});
 };
 
@@ -456,3 +467,6 @@ DataBinder.prototype._bindShow = function ($this) {
 		$this.css('display', 'none');
 	}
 };
+
+
+DataBinder.prototype._bindScope = function () {};
