@@ -6,9 +6,10 @@ window.binders = window.binders || [];
  * @param {!Object} model any JavaScript object
  * @param {Node=} optNode document.body will be used as a default node
  * @param {string=} optScope
+ * @param {Function=} optCallback
  * @constructor
  */
-var DataBinder = function (model, optNode, optScope) {
+var DataBinder = function (model, optNode, optScope, optCallback) {
 
 	if (!(this instanceof DataBinder)) {
 		return new DataBinder(model, optNode, optScope);
@@ -50,6 +51,9 @@ var DataBinder = function (model, optNode, optScope) {
 
 
 	this.__scope = this.__scope.toLowerCase();
+
+
+	this.__callback = optCallback || function () {};
 
 
 	/**
@@ -135,6 +139,8 @@ DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
+		this.__callback(values);
+
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
 			var $this = $(this);
