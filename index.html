@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Data-binder : Data-Binder is a simple data binder for binding a JavaScript object (a model) to a DOM elemnts. It is using new Object.observe method and emulates it for older browsers.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Data-binder</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/TimofeyBiryukov/data-binder">View on GitHub</a>
+
+          <h1 id="project_title">Data-binder</h1>
+          <h2 id="project_tagline">Data-Binder is a simple data binder for binding a JavaScript object (a model) to a DOM elemnts. It is using new Object.observe method and emulates it for older browsers.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/TimofeyBiryukov/data-binder/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/TimofeyBiryukov/data-binder/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="data-binder" class="anchor" href="#data-binder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data-Binder</h1>
+
+<p>Data-Binder is a simple data binder for binding a JavaScript object (a model) to a DOM elemnts.
+It is using new Object.observe method and emulates it for older browsers.</p>
+
+<h2>
+<a id="start" class="anchor" href="#start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start</h2>
+
+<pre><code>gulp
+</code></pre>
+
+<p>To start developing clone a repo and do gulp.
+Gulp will concat files and put them in dist folder from there you can use data-binder.js and data-binder.min.js.
+Then you can visit http://localhost:8000/example/ for exampels.</p>
+
+<h2>
+<a id="test" class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h2>
+
+<p>Run test:</p>
+
+<pre><code>gulp test
+</code></pre>
+
+<h3>
+<a id="todo-descripton" class="anchor" href="#todo-descripton" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO: descripton</h3>
+
+<h1>
+<a id="docs" class="anchor" href="#docs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Docs</h1>
+
+<p><a name="DataBinder"></a></p>
+
+<h2>
+<a id="class-databinder" class="anchor" href="#class-databinder" aria-hidden="true"><span class="octicon octicon-link"></span></a>class: DataBinder</h2>
+
+<p><strong>Members</strong></p>
+
+<ul>
+<li>
+<a href="#DataBinder">class: DataBinder</a>
+
+<ul>
+<li><a href="#new_DataBinder">new DataBinder(model, [optNode])</a></li>
+<li><a href="#DataBinder#getModel">dataBinder.getModel()</a></li>
+<li><a href="#DataBinder#getChildren">dataBinder.getChildren()</a></li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_DataBinder"></a></p>
+
+<h2>
+<a id="new-databindermodel-optnode" class="anchor" href="#new-databindermodel-optnode" aria-hidden="true"><span class="octicon octicon-link"></span></a>new DataBinder(model, [optNode])</h2>
+
+<p>Data Binder entery point</p>
+
+<p><strong>Params</strong></p>
+
+<ul>
+<li>model <code>Object</code> - any JavaScript object</li>
+<li>[optNode] <code>Node</code> - document.body will be used as a default node</li>
+</ul>
+
+<p>JS:</p>
+
+<pre><code>var PostController = function () {
+    this.title = 'Title';
+    this.text = 'lorem...';
+    this.showFull = false;
+    this.click = function () {
+        this.showFull = true;
+    };
+};
+
+var post = new PostController();
+var element = document.getElementsByClassName('post')[0];
+var db = new DataBinder(post, element);
+</code></pre>
+
+<p>HTML:</p>
+
+<pre><code>&lt;div class="post"&gt;
+    &lt;h1 data-bind="title"&gt;&lt;/h1&gt;
+    &lt;p data-bind="text" data-bind-show="showFull"&gt;&lt;/p&gt;
+    &lt;button data-bind-click="click"&gt;Show full&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="DataBinder#getModel"></a></p>
+
+<h2>
+<a id="databindergetmodel" class="anchor" href="#databindergetmodel" aria-hidden="true"><span class="octicon octicon-link"></span></a>dataBinder.getModel()</h2>
+
+<p><strong>Returns</strong>: <code>Object</code> - binded model
+<a name="DataBinder#getChildren"></a></p>
+
+<h2>
+<a id="databindergetchildren" class="anchor" href="#databindergetchildren" aria-hidden="true"><span class="octicon octicon-link"></span></a>dataBinder.getChildren()</h2>
+
+<p><strong>Returns</strong>: <code>Array</code> - child binders generated</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Data-binder maintained by <a href="https://github.com/TimofeyBiryukov">TimofeyBiryukov</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
