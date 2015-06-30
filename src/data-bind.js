@@ -4,15 +4,15 @@ window.binders = window.binders || [];
 /**
  * Data Binder entry point
  * @param {!Object} model any JavaScript object
- * @param {Node=} optNode document.body will be used as a default node
- * @param {string=} optScope
- * @param {Function=} optCallback
+ * @param {Node=} opt_node document.body will be used as a default node
+ * @param {string=} opt_scope
+ * @param {Function=} opt_callback
  * @constructor
  */
-var DataBinder = function (model, optNode, optScope, optCallback) {
+var DataBinder = function (model, opt_node, opt_scope, opt_callback) {
 
 	if (!(this instanceof DataBinder)) {
-		return new DataBinder(model, optNode, optScope);
+		return new DataBinder(model, opt_node, opt_scope);
 	}
 
 	window.binders.push(this);
@@ -28,7 +28,7 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	 *
 	 * @type {HTMLElement}
 	 */
-	this.__node = optNode || document.body;
+	this.__node = opt_node || document.body;
 
 
 	if (!(this.__node instanceof HTMLElement)) {
@@ -44,13 +44,13 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	 *
 	 * @type {string}
 	 */
-	this.__scope = optScope || '';
+	this.__scope = opt_scope || '';
 
 
 	this.__scope = this.__scope.toLowerCase();
 
 
-	this.__callback = optCallback || function () {};
+	this.__callback = opt_callback || function () {};
 
 
 	/**
@@ -90,9 +90,10 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	this.__templater = Mustache;
 
 
-	/**
-	 *
-	 */
+  /**
+   *
+   * @type {string}
+   */
 	this.__template = this.__node.innerHTML;
 
 
