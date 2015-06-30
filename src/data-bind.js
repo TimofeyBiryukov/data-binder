@@ -20,7 +20,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @type {!Object}
-	 * @private
 	 */
 	this.__model = model;
 
@@ -28,7 +27,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @type {HTMLElement}
-	 * @private
 	 */
 	this.__node = optNode || document.body;
 
@@ -45,7 +43,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @type {string}
-	 * @private
 	 */
 	this.__scope = optScope || '';
 
@@ -59,7 +56,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @type {Array}
-	 * @private
 	 */
 	this.__childBinders = [];
 
@@ -68,7 +64,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	 *
 	 * @type {string[]}
 	 * @enum
-	 * @private
 	 * @const
 	 */
 	this.__INPUT_TYPES = ['INPUT', 'TEXTAREA', 'SELECT'];
@@ -77,7 +72,6 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @enum
-	 * @private
 	 */
 	this.__TYPES = {
 		SHOW: 'show',
@@ -92,14 +86,12 @@ var DataBinder = function (model, optNode, optScope, optCallback) {
 	/**
 	 *
 	 * @type {Window.Mustache|*}
-	 * @private
 	 */
 	this.__templater = Mustache;
 
 
 	/**
 	 *
-	 * @private
 	 */
 	this.__template = this.__node.innerHTML;
 
@@ -133,13 +125,12 @@ DataBinder.prototype.getChildren = function () {
 
 /**
  *
- * @private
  */
 DataBinder.prototype.__bindModel = function () {
 	var self = this;
 
 	this.__observer(function (values) {
-		this.__callback(values);
+		self.__callback(values);
 
 		self.__find(self.__buildSelector(values)).each(function () {
 			var value;
@@ -171,7 +162,6 @@ DataBinder.prototype.__bindModel = function () {
 
 /**
  *
- * @private
  */
 DataBinder.prototype.__bindView = function () {
 	var self = this;
@@ -199,7 +189,6 @@ DataBinder.prototype.__bindView = function () {
 
 /**
  *
- * @private
  */
 DataBinder.prototype.__update = function () {
 	var tmp;
@@ -216,7 +205,6 @@ DataBinder.prototype.__update = function () {
 
 /**
  *
- * @private
  */
 DataBinder.prototype.__renderHTML = function () {
 	this.__populateModel();
@@ -226,7 +214,6 @@ DataBinder.prototype.__renderHTML = function () {
 
 /**
  *
- * @private
  */
 DataBinder.prototype.__populateModel = function () {
 	var values = this.__template.match(/\{\{(.+)\}\}/g);
@@ -248,7 +235,6 @@ DataBinder.prototype.__populateModel = function () {
  *
  * @param {Object} values
  * @return {string}
- * @private
  */
 DataBinder.prototype.__buildSelector = function (values) {
 	var selector = [];
@@ -286,7 +272,6 @@ DataBinder.prototype.__buildSelector = function (values) {
  * @param {string} value
  * @param {string=} optType
  * @returns {string}
- * @private
  */
 DataBinder.prototype.__buildScope = function (value, optType) {
 	var type = optType || '';
@@ -308,7 +293,6 @@ DataBinder.prototype.__buildScope = function (value, optType) {
  *
  * @param {string=} optType
  * @returns {string}
- * @private
  */
 DataBinder.prototype.__buildDataKey = function (optType) {
 	var type = optType || '';
@@ -342,7 +326,6 @@ DataBinder.prototype.__toCamelCase = function (input) {
  *
  * @param {string} input
  * @returns {string}
- * @private
  */
 DataBinder.prototype.__fromCamelCase = function (input) {
 	return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -353,7 +336,6 @@ DataBinder.prototype.__fromCamelCase = function (input) {
  *
  * @param selector
  * @return {Array<jQuery>}
- * @private
  */
 DataBinder.prototype.__find = function (selector) {
 	return $(this.__node).find(selector).andSelf();
@@ -363,7 +345,6 @@ DataBinder.prototype.__find = function (selector) {
 /**
  *
  * @param {Function} callback
- * @private
  */
 DataBinder.prototype.__observer = function (callback) {
 	Object.observe(this.__model, callback);
@@ -373,7 +354,6 @@ DataBinder.prototype.__observer = function (callback) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bind = function ($this) {
 	var self = this;
@@ -387,7 +367,6 @@ DataBinder.prototype._bind = function ($this) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bindClick = function ($this) {
 	var self = this;
@@ -401,7 +380,6 @@ DataBinder.prototype._bindClick = function ($this) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bindInit = function ($this) {
 	this.__model[$this.data(this.__buildDataKey(this.__TYPES.INIT))]($this);
@@ -411,7 +389,6 @@ DataBinder.prototype._bindInit = function ($this) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bindRepeat = function ($this) {
 	var element, node, model, dataBinder, optScope;
@@ -446,7 +423,6 @@ DataBinder.prototype._bindRepeat = function ($this) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bindHide = function ($this) {
 	var hide = Boolean(this.__model[$this.data(this.__buildDataKey(this.__TYPES.HIDE))]);
@@ -462,7 +438,6 @@ DataBinder.prototype._bindHide = function ($this) {
 /**
  *
  * @param {jQuery} $this
- * @private
  */
 DataBinder.prototype._bindShow = function ($this) {
 	var show = Boolean(this.__model[$this.data(this.__buildDataKey(this.__TYPES.SHOW))]);
